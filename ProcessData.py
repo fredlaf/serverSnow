@@ -16,11 +16,8 @@ from Properties import Properties
 import flask
 
 # Set the working directory to current directory.
-os.chdir('c:\\Users\\frederick\OneDrive - Universite Laval\maitrise\GMT7004_RealisationApplicationsSIG\webApps\ws')
+# os.chdir('c:\\Users\\frederick\OneDrive - Universite Laval\maitrise\GMT7004_RealisationApplicationsSIG\webApps\ws')
 # Telling which directory is the working one.
-# json_string = flask.jsonify([snowOB.__dict__ for snowOB in list])
-# print(json_string)
-# return json_string
 
 #Load CSV file and return a list string list as row
 # Process raw data from CSV into clean data ready to be inserted into DB
@@ -95,7 +92,9 @@ def recoverData(date, type):
                     "from snow " +
                     "where date = %s " +
                     "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
-                    "order by stationname, date", (date,))
+                    "order by stationname, date "
+                    "limit 100", (date,))
+
 
     # Retreive records from db.
     records = cursor.fetchall()
@@ -166,4 +165,6 @@ def processInserting(dateBegin, dateEnd):
 # date = "2011-01-01"
 # snowGeoJson = recoverData(date, "polygon")
 # TODO Faire fonctionner le GeoJSON niveau Client.
+
+# processInserting(1985, 2016)
 
