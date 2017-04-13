@@ -17,7 +17,10 @@ def getData():
     if request.method == 'POST':
         date = request.form['date']
         type = request.form['type']
-        date = "%s-01-01" % date
+
+        #TODO add year and month
+        date = "{0}-{1}-01".format()
+
         # todo add a method to build a geoJson.
         snowGeoJson= None
         if (type == 'polygon'):
