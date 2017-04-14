@@ -15,11 +15,13 @@ def hello_world():
 @app.route('/getData', methods=['POST'])
 def getData():
     if request.method == 'POST':
-        date = request.form['date']
+        #extract parameters from request.
+        year = request.form['year']
+        month = request.form['month']
         type = request.form['type']
 
-        #TODO add year and month
-        date = "{0}-{1}-01".format()
+        #construct a sql date type.
+        date = "{0}-{1}-01".format(year, month)
 
         # todo add a method to build a geoJson.
         snowGeoJson= None

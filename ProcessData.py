@@ -172,8 +172,8 @@ def recoverData(date, type):
                     "from snow " +
                     "where date = %s " +
                     "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
-                    "order by stationname, date "
-                    "limit 100", (date,))
+                    "order by stationname, date ", (date,))
+                    # "limit 100", (date,))
 
 
     # Retreive records from db.
@@ -246,4 +246,4 @@ def processInserting(dateBegin, dateEnd):
 # snowGeoJson = recoverData(date, "polygon")
 # TODO Faire fonctionner le GeoJSON niveau Client.
 
-getDataFromServer()
+# getDataFromServer()
