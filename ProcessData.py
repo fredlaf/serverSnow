@@ -168,21 +168,23 @@ def recoverData(date, type):
 
     cursor = conn.cursor()
 
-    cursor.execute("select stationname, snowdrop, st_y(coordinates) as lat, st_x(coordinates) as lon, to_char(date, 'YYYY-MM-DD') as date " +
-                    "from snow " +
-                    "where date = %s " +
-                    "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
-                    "order by stationname, date ", (date,))
-                    # "limit 100", (date,))
 
-
-    # Retreive records from db.
-    records = cursor.fetchall()
 
     snowObjects = []
     featuresList = []
     aFeatureCollection = None
     if (type == "point"):
+        cursor.execute(
+            "select stationname, snowdrop, st_y(coordinates) as lat, st_x(coordinates) as lon, to_char(date, 'YYYY-MM-DD') as date " +
+            "from snow " +
+            "where date = %s " +
+            "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
+            "order by stationname, date ", (date,))
+        # "limit 100", (date,))
+
+
+        # Retreive records from db.
+        records = cursor.fetchall()
         # Construct a list of objects.
         aFeatureCollection= []
         for row in records:
@@ -193,6 +195,17 @@ def recoverData(date, type):
                 # Add it to list.
                 aFeatureCollection.append(snowOB)
     elif (type == "polygon"):
+        cursor.execute(
+            "select stationname, snowdrop, st_y(coordinates) as lat, st_x(coordinates) as lon, to_char(date, 'YYYY-MM-DD') as date " +
+            "from snow " +
+            "where date = %s " +
+            "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
+            "order by stationname, date "
+            "limit 100", (date,))
+
+
+        # Retreive records from db.
+        records = cursor.fetchall()
         # Construct a geoJSON.
         for row in records:
            # If the value of snowQty is not equals to 0, append it to the list.
