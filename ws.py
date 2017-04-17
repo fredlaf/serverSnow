@@ -1,4 +1,8 @@
-import flask
+# By frederick Lafrance
+# 2017-04-17
+#
+# Laval University, 2017
+
 from flask import Flask, request, Response
 import ProcessData
 import json

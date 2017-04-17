@@ -1,3 +1,8 @@
+# By frederick Lafrance
+# 2017-04-17
+#
+# Laval University, 2017
+
 import csv
 import json
 import csv
@@ -56,10 +61,9 @@ def loadCSVfromFile(date):
     print("-> Process for date : " + date + " completed!")
     return processedData
 
-def getDataFromServer():
-
-
-    for year in range(1950, 2017):
+# Get data from Environment Canada Server given a start year (ex. 1950) and a end year (ex. 2016)
+def getDataFromServer(startYear, endYear):
+    for year in range(startYear, endYear):
         count = 0
         for month in range(1, 13):
             dataSet = []
@@ -96,6 +100,7 @@ def getConnection():
     connection = Connection("localhost", "snow", "postgres", "postgres").getConnection()
     return connection
 
+# Delete ALL data from database.
 def deleteData():
     conn = getConnection()
 
@@ -114,7 +119,7 @@ def deleteData():
         cursor.close()
         conn.close()
 
-# Insert data into database, given a date.
+# Insert data into database, given a date (YEAR and MONTH).
 def insertData(data, year, month):
     # Establish a connection with DB.
     conn = getConnection()
@@ -162,6 +167,7 @@ def insertData(data, year, month):
         cursor.close()
         conn.close()
 
+# Recover data from database, given the date and the type of data to recover.
 def recoverData(date, type):
 
     conn = getConnection()
@@ -254,9 +260,5 @@ def processInserting(dateBegin, dateEnd):
             # insert data into db.
             insertData(rawData, dateFormat)
 
-#Testing..
-# date = "2011-01-01"
-# snowGeoJson = recoverData(date, "polygon")
-# TODO Faire fonctionner le GeoJSON niveau Client.
-
-# getDataFromServer()
+#for testing only.
+# getDataFromServer(1950, 2016)

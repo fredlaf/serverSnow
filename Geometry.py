@@ -1,3 +1,8 @@
+# By frederick Lafrance
+# 2017-04-17
+#
+# Laval University, 2017
+
 import geojson
 
 class Geometry :
