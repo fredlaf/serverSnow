@@ -96,6 +96,7 @@ def getDataFromServer(startYear, endYear):
     # for element in dataSet:
     #     print(element)
 
+# Enter your database info connection.
 def getConnection():
     connection = Connection("localhost", "snow", "postgres", "postgres").getConnection()
     return connection
