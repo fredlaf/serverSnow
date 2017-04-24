@@ -175,8 +175,6 @@ def recoverData(date, type):
 
     cursor = conn.cursor()
 
-
-
     snowObjects = []
     featuresList = []
     aFeatureCollection = None
@@ -210,28 +208,102 @@ def recoverData(date, type):
             "order by stationname, date "
             "limit 100", (date,))
 
+        # Retreive records from db.
+        records = cursor.fetchall()
+
+        # Construct a geoJSON.
+        for row in records:
+            # If the value of snowQty is not equals to 0, append it to the list.
+            if (row[1] != 0):
+                # Construct a new geometry of type Polygon from point.
+                # Make a BBox around the point.
+                aPolygon = Polygon([[[row[2]+0.08, row[3]+0.05],
+                           [row[2] - 0.08, row[3] + 0.05],
+                           [row[2] - 0.08, row[3] - 0.05],
+                           [row[2] + 0.08, row[3] - 0.05]]])
+
+
+                # Create a feature from polygon.
+                aFeature = Feature(geometry=aPolygon,
+                                   properties={"name": row[0], "snowQty": row[1], "date": row[4]})
+
+                # Add it to list.
+                featuresList.append(aFeature)
+
+                    # print(aFeatureCollection)
+    elif (type == "ecity"):
+        cursor.execute(
+            "select stationname, snowdrop, st_y(coordinates) as lat, st_x(coordinates) as lon, to_char(date, 'YYYY-MM-DD') as date " +
+            "from snow " +
+            "where date = %s " +
+            "group by stationname, snowDrop, st_x(coordinates), st_y(coordinates), date " +
+            "order by stationname, date "
+            "limit 400", (date,))
+
 
         # Retreive records from db.
         records = cursor.fetchall()
+
+        count = 1
         # Construct a geoJSON.
         for row in records:
+
            # If the value of snowQty is not equals to 0, append it to the list.
            if (row[1] != 0):
                # Construct a new geometry of type Polygon from point.
                # Make a BBox around the point.
-               aPolygon = Polygon([[[row[2]+0.08, row[3]+0.05],
-                          [row[2] - 0.08, row[3] + 0.05],
-                          [row[2] - 0.08, row[3] - 0.05],
-                          [row[2] + 0.08, row[3] - 0.05]]])
-               # Create a feature from polygon.
-               aFeature = Feature(geometry=aPolygon, properties={"name": row[0],"snowQty": row[1], "date": row[4]})
+               # aPolygon = Polygon([[[row[2]+0.08, row[3]+0.05],
+               #            [row[2] - 0.08, row[3] + 0.05],
+               #            [row[2] - 0.08, row[3] - 0.05],
+               #            [row[2] + 0.08, row[3] - 0.05]]])
 
-               # Add it to list.
-               featuresList.append(aFeature)
-               # Construct FeatureCollection
-           aFeatureCollection = FeatureCollection(featuresList)
+                # TEMP for spatiotemporal simulation test.
+                if (count <= 100):
+                    aPolygon = Polygon([[[45.501683 + 0.001, -73.569208 + 0.001],
+                                        [45.501683 - 0.001, -73.569208 + 0.001],
+                                        [45.501683 - 0.001, -73.569208 - 0.001],
+                                        [45.501683 + 0.001, -73.569208 - 0.001]]])
 
-        # print(aFeatureCollection)
+
+                    # Create a feature from polygon.
+                    aFeature = Feature(geometry=aPolygon, properties={"name": row[0],"snowQty": row[1], "date": row[4]})
+
+                elif (count > 100 and count <= 200):
+                    aPolygon = Polygon([[[45.498872 + 0.001, -73.570617 + 0.001],
+                                         [45.498872 - 0.001, -73.570617 + 0.001],
+                                         [45.498872 - 0.001, -73.570617 - 0.001],
+                                         [45.498872 + 0.001, -73.570617 - 0.001]]])
+
+                    # Create a feature from polygon.
+                    aFeature = Feature(geometry=aPolygon,
+                                       properties={"name": row[0], "snowQty": row[1], "date": row[4]})
+                elif (count > 200 and count <= 300):
+                    aPolygon = Polygon([[[45.500038 + 0.001, -73.573095 + 0.001],
+                                         [45.500038 - 0.001, -73.573095 + 0.001],
+                                         [45.500038 - 0.001, -73.573095 - 0.001],
+                                         [45.500038 + 0.001, -73.573095 - 0.001]]])
+
+                    # Create a feature from polygon.
+                    aFeature = Feature(geometry=aPolygon,
+                                       properties={"name": row[0], "snowQty": row[1], "date": row[4]})
+                elif (count > 300 and count <= 400):
+                    aPolygon = Polygon([[[45.503526 + 0.001, -73.574764 + 0.001],
+                                         [45.503526 - 0.001, -73.574764 + 0.001],
+                                         [45.503526 - 0.001, -73.574764 - 0.001],
+                                         [45.503526 + 0.001, -73.574764 - 0.001]]])
+
+                    # Create a feature from polygon.
+                    aFeature = Feature(geometry=aPolygon,
+                                       properties={"name": row[0], "snowQty": row[1], "date": row[4]})
+
+                # Add it to list.
+                featuresList.append(aFeature)
+
+                count= count+1
+
+    # Construct FeatureCollection
+    aFeatureCollection = FeatureCollection(featuresList)
+    # print(aFeatureCollection)
     print("<-- Recover completed for " + date)
     # pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(aFeatureCollection)

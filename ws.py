@@ -32,6 +32,14 @@ def getData():
         if (type == 'polygon'):
             snowGeoJson = ProcessData.recoverData(date, type)
             snowGeoJson = json.dumps(snowGeoJson)
+
+        # FOR TESTING SPATIOTEMPORAL SIMULATION FOR ECITY ONLY.
+        #-----------------------------
+        elif (type == 'ecity'):
+            snowGeoJson = ProcessData.recoverData(date, type)
+            snowGeoJson = json.dumps(snowGeoJson)
+        #------------------------------
+
         elif (type == 'point'):
             objList = ProcessData.recoverData(date, type)
             snowGeoJson = ProcessData.fromListToJson(objList)
