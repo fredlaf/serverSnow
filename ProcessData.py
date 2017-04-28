@@ -234,27 +234,27 @@ def recoverData(date, type):
     elif (type == "ecity"):
         # TEMP for spatiotemporal simulation test.
 
-        propositionPolygon1 = Polygon([[[45.510, -73.577],
-                            [45.496, -73.577],
-                            [45.496, -73.561],
-                            [45.510, -73.561]]])
+        propositionPolygon1 = Polygon([[[-73.573458+0.0005, 45.505204+0.0003],
+                           [-73.573458 - 0.0005, 45.505204 + 0.0003],
+                           [-73.573458 - 0.0005, 45.505204 - 0.0003],
+                           [-73.573458 + 0.0005, 45.505204 - 0.0003]]]) #+-
 
         proposition1 = Feature(geometry=propositionPolygon1, properties={"name": "Bus en retard","popularity": 50, "date": "2017-03-28"})
         featuresList.append(proposition1)
 
-        propositionPolygon2 = Polygon([[[45.498 + 0.08, -73.570 + 0.08],
-                             [45.498 - 0.08, -73.570 + 0.08],
-                             [45.498 - 0.08, -73.570 - 0.08],
-                             [45.498 + 0.08, -73.570 - 0.08]]])
+        propositionPolygon2 = Polygon([[[-73.574764+0.0005,45.503526+0.0003],
+                           [-73.574764 - 0.0005, 45.503526 + 0.0003],
+                           [-73.574764 - 0.0005, 45.503526 - 0.0003],
+                           [-73.574764 + 0.0005, 45.503526 - 0.0003]]])
 
         proposition2 = Feature(geometry=propositionPolygon2,
                            properties={"name": "service mediocre", "popularity": 30, "date": "2017-04-01"})
         featuresList.append(proposition2)
 
-        propositionPolygon3 = Polygon([[[45.500 + 0.08, -73.573 + 0.08],
-                             [45.500 - 0.08, -73.573 + 0.08],
-                             [45.500 - 0.08, -73.573 - 0.08],
-                             [45.500 + 0.08, -73.573 - 0.08]]])
+        propositionPolygon3 = Polygon([[[-73.565411+0.0005, 45.500301+0.0003],
+                           [-73.565411 - 0.0005, 45.500301 + 0.0003],
+                           [-73.565411 - 0.0005, 45.500301 - 0.0003],
+                           [-73.565411 + 0.0005, 45.500301 - 0.0003]]])
 
         # Create a feature from polygon.
         proposition3 = Feature(geometry=propositionPolygon3,
